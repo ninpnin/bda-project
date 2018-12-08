@@ -1,17 +1,36 @@
 import numpy as np
-
+from math import log
 
 # binary data
 # each row is a person
 # the last number in the row is CMV class
 # all other data is TCR's
 
-d = np.array([[1,1,0,1], [1,1,0,1], [0,1,0,0], [0,1,0,0],[0,1,0,0], [0,1,0,0],[0,1,1,1],[0,1,1,1],[0,1,1,1]])
+# generate data with the following probabilities to have a given TCR
+# the last one denotes class, thus 1.0 and 0.0
+r_1 = np.array([0.6, 0.4, 0.1, 0.1, 0.7, 0.9, 0.3, 1.0])
+r_0 = np.array([0.9, 0.8, 0.5, 0.4, 0.1, 0.05, 0.2, 0.0])
+
+N = len(r_1)
+M = 25
+
+d1 = np.random.uniform(size = N*M).reshape(M, N) + r_1
+d1 = np.floor(d1).astype(int)
+
+
+d0 = np.random.uniform(size = N*M).reshape(M, N) + r_0
+d0 = np.floor(d0).astype(int)
+
+print(d1)
+print(d0)
+
+d = np.concatenate((d1, d0), axis=0)
+
+#d = np.array([[1,1,0,1], [1,1,0,1], [0,1,0,0], [0,1,0,0],[0,1,0,0], [0,1,0,0],[0,1,1,1],[0,1,1,1],[0,1,1,1]])
 
 print("data", d)
 
 def classify(data, x):
-
 
 	# get data with the class 1 (CMV+)
 	a = data[:,-1]
@@ -72,6 +91,8 @@ def classify(data, x):
 
 
 def loo(M):
+	logloss = 0.0
+	corr = 0
 	for i in range(len(M)):
 
 		x = M[i, :]
@@ -84,6 +105,16 @@ def loo(M):
 		c, p = classify(M_0, x[:-1])
 
 		print(c, p)
-		print("correct class:", c == x[-1])
+		if c == x[-1]:
+			print("correct class", c)
+			corr += 1
+			logloss += log(p)
+		else:
+			print("incorrect class", c)
+			logloss += log(1 - p)
+
+	print("Accuracy", corr / len(M))
+	logloss = logloss / len(M)
+	print("Log loss", logloss)
 
 loo(d)
