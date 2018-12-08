@@ -6,11 +6,11 @@ import numpy as np
 # the last number in the row is CMV class
 # all other data is TCR's
 
-data = np.array([[1,1,0,1], [0,1,0,0],[0,1,0,1]])
+d = np.array([[1,1,0,1], [1,1,0,1], [0,1,0,0], [0,1,0,0],[0,1,0,0], [0,1,0,0],[0,1,1,1],[0,1,1,1],[0,1,1,1]])
 
-print("data", data)
+print("data", d)
 
-def classify(x):
+def classify(data, x):
 
 
 	# get data with the class 1 (CMV+)
@@ -31,7 +31,6 @@ def classify(x):
 
 	# calculate the simple Bayes probabilities
 	probs_1 = ( i_1 + 1 ) / (n_plus + 2)
-	print("probs", probs_1)
 
 
 	# get data with the class 0 (CMV-)
@@ -41,7 +40,6 @@ def classify(x):
 
 	i_0 = np.sum(data_0, axis=0)
 	probs_0 = ( i_0 + 1 ) / (n_minus + 2)
-	print("probs", probs_0)
 
 	# calculate the probability that x happens
 
@@ -50,10 +48,8 @@ def classify(x):
 	# yields [0.4, 0.5, 0.3], for example
 
 	probs_1 = np.abs( np.abs(probs_1 - x) - 1)
-	print("probs1", probs_1)
 
 	probs_0 = np.abs( np.abs(probs_0 - x) - 1)
-	print("probs0", probs_0)
 
 
 	# calculate the likelihoods
@@ -75,6 +71,19 @@ def classify(x):
 
 
 
-new = [1,0,1]
+def loo(M):
+	for i in range(len(M)):
 
-print(classify(new))
+		x = M[i, :]
+		M_0 = M.copy()
+		M_0 = np.delete(M_0, i, axis=0)
+		#print(M)
+		print(x)
+		#print(M_0)
+
+		c, p = classify(M_0, x[:-1])
+
+		print(c, p)
+		print("correct class:", c == x[-1])
+
+loo(d)
