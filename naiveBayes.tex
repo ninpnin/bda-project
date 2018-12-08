@@ -1,0 +1,84 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[pdftex]{graphicx}
+%\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[T1,mtbold,lucidacal,mtplusscr,subscriptcorrection]{mathtime}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{enumerate}
+\usepackage{parskip}
+\usepackage[colorlinks,urlcolor=black]{hyperref}
+\usepackage{microtype}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{listings}
+\usepackage{pythonhighlight}
+ \usepackage{relsize}
+
+% if not draft, smaller printable area makes the paper more readable
+\topmargin -4mm
+\oddsidemargin 0mm
+\textheight 225mm
+\textwidth 150mm
+
+%\parskip=\baselineskip
+
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\Sd}{Sd}
+\DeclareMathOperator{\sd}{sd}
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Beta}{Beta}
+\DeclareMathOperator{\Poisson}{Poisson}
+\DeclareMathOperator{\betacdf}{betacdf}
+\DeclareMathOperator{\Invchi2}{Inv-\chi^2}
+\DeclareMathOperator{\logit}{logit}
+\DeclareMathOperator{\N}{N}
+\DeclareMathOperator{\U}{U}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\trace}{trace}
+\newcommand{\vc}[1] { \mathbf{#1} }
+\newcommand{\vs}[1] { \boldsymbol{#1} }
+
+\pagestyle{empty}
+
+\begin{document}
+\thispagestyle{empty}
+
+\section*{Naive Bayes Classifier}
+
+
+The purpose of this is to test how well the naive Bayes model fits the data in contrast to the one used in the research paper.
+
+But first we need to define our model. A Bernoulli naive Bayes is good for the purpose: it uses binary data to sort samples into categories; in this case two. The model has the following structure
+
+\[ p(C_i \mid {\bf x} ) \propto p({\bf x} \mid C_i ) p(C_i) = p(C_i)\mathlarger{\mathlarger{ \Pi }}_{j=1}^{N} p(x_j \mid C_i)^{b_j}(1 - p(x_j \mid C_i))^{(1-b_j)} \]
+
+where $b_j$ denotes the boolean value of having the TCR of the index $j$. These proportional values are then transformed into probabilities
+
+\[ p(C_i \mid {\bf x} ) = \frac{p({\bf x} \mid C_i ) p(C_i) }{ \Sigma_{n=1}^K p({\bf x} \mid C_n ) p(C_n)} \]
+
+
+{\bf Source:}
+
+\begin{python}
+import random
+from math import log
+from math import exp
+
+# plot that shit
+import matplotlib.pyplot as plt
+plt.hist(s, bins='auto')
+plt.title("Samples from Exp(2)")
+plt.show()
+\end{python}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
