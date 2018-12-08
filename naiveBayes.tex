@@ -60,13 +60,15 @@ But first we need to define our model. A Bernoulli naive Bayes is good for the p
 
 where $b_j$ denotes the boolean value of having the TCR of the index $j$. 
 
-Moreover, these probabilities are based on the expected values of the proportions in the sample. This means that $p(x_j \mid C_i)$ is actually $p(x_j \mid C_i, {\bf x}_0)$ in this case. Due to the independence assumption, we can first calculate the expected values of these, and then calculate the product.
+Moreover, these probabilities are based on the expected values of the proportions in the sample. This means that $p(x_j \mid C_i)$ is actually $p(x_j \mid C_i, {\bf x}_0)$ in this case. Because they are modelled as fixed probabilities in each group, these underlying probabilities are Beta distributed. 
 
+Due to the independence assumption, we can first calculate the expected values of the probabilites, and then calculate the product for class probability estimation.
 
-These proportional values are then transformed into probabilities
+The proportional values are transformed into probabilities
 
 \[ p(C_i \mid {\bf x} ) = \frac{p({\bf x} \mid C_i ) p(C_i) }{ \Sigma_{n=1}^K p({\bf x} \mid C_n ) p(C_n)} \]
 
+where $K$ is the number of classes, in this case 2.
 
 {\bf Source:}
 
